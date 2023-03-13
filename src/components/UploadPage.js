@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Upload, Divider, InputNumber } from "antd";
 import "./UploadPage.css";
-
+const { TextArea } = Input;
 const UploadPage = () => {
 	const onFinish = (val) => {
 		console.log(val);
@@ -20,8 +20,17 @@ const UploadPage = () => {
 					<Input className="upload-name" placeholder="상품명을 입력해주세요" size="large" />
 				</Form.Item>
 				<Divider></Divider>
+				<Form.Item label={<span className="upload-price">판매가</span>} name="product-price" rules={[{ required: true, message: "판매가는 필수 입력 사항입니다." }]}>
+					<InputNumber className="upload-price" size="large" min={0} defaultValue={0} />
+				</Form.Item>
+				<Divider></Divider>
+				<Form.Item label={<span className="upload-label">상품설명</span>} name="product-description" rules={[{ required: true, message: "상품설명은 필수 입력 사항입니다." }]}>
+					<TextArea size="large" id="product-description" showCount maxLength={300} placeholder="상품설명을 작성해주세요"></TextArea>
+				</Form.Item>
 				<Form.Item>
-					<InputNumber min={1} max={10} defaultValue={3} />
+					<Button id="submit-button" htmlType="submit">
+						상품등록하기
+					</Button>
 				</Form.Item>
 			</Form>
 		</div>
