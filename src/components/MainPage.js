@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { API_URL } from "../config/constants.js";
 import axios from "axios";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 const MainPage = () => {
 	const [products, setProducts] = useState([]);
 	useEffect(() => {
-		let url = "https://89e06b7a-d7f6-4161-97d5-99bd1e2387e3.mock.pstmn.io/products/";
+		let url = `${API_URL}/products`;
 		axios
 			.get(url)
 			.then((result) => {
-				const products = result.data.products;
+				const products = result.data.product;
 				setProducts(products);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}, []);
+
 	return (
 		<div>
 			<div id="body">
@@ -30,15 +34,18 @@ const MainPage = () => {
 							<div className="product-card" key={idx}>
 								<Link className="product-link" to={`/productPage/${product.id}`}>
 									<div>
-										<img className="product-img" src={product.imageUrl} alt={product.name} />
+										<img className="product-img" src={`${API_URL}/${product.imageUrl}`} alt={product.name} />
 									</div>
 									<div className="product-content">
 										<span className="product-name">{product.name}</span>
 										<span className="product-price">{product.price}</span>
-										<span className="product-seller">
-											<img src="images/icons/avatar.png" className="product-avatar" alt="{product.seller}" />
-											<span>{product.seller}</span>
-										</span>
+										<div className="product-footer">
+											<span className="product-seller">
+												<img src="images/icons/avatar.png" className="product-avatar" alt="{product.seller}" />
+												<span>{product.seller}</span>
+											</span>
+											<span className="product-date">상품등록일: {dayjs(product.createdAt).format("YY년MM월DD일-hh시MM분ss초")}</span>
+										</div>
 									</div>
 								</Link>
 							</div>
