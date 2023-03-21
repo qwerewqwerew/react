@@ -23,8 +23,9 @@ const UploadPage = () => {
 				navigate("/", { replace: true });
 			})
 			.catch((error) => {
+				message.info('This is a normal message');
 				console.error(error);
-				message.error(`에러가 발생하였습니다`);
+				
 			});
 	};
 
@@ -43,7 +44,7 @@ const UploadPage = () => {
 		<div id="upload-container">
 			<Form name="uploadForm" onFinish={onFinish}>
 				<Form.Item name="upload" valuePropName="image">
-					<Upload name="image" action={`${API_URL}/image`} listType="picture" showUploadList={false} onChange={onChangeImage}>
+					<Upload name="image" action={`${API_URL}/image`} listType="image" showUploadList={false} onChange={onChangeImage}>
 						{imageUrl ? (
 							<img id="upload-img" src={`${API_URL}/${imageUrl}`} alt="" />
 						) : (
@@ -60,13 +61,15 @@ const UploadPage = () => {
 					<Input className="upload-name" placeholder="상품명을 입력해주세요" size="large" />
 				</Form.Item>
 				<Divider></Divider>
-				<Form.Item label={<span className="upload-price">판매가</span>} name="price" rules={[{ required: true, message: "판매가는 필수 입력 사항입니다." }]} initialValue={0}>
-					<InputNumber className="upload-price" size="large" min={0} />
-				</Form.Item>
-				<Divider></Divider>
+
 				<Form.Item label={<span className="upload-label">판매자명</span>} name="seller" rules={[{ required: true, message: "판매자명은 필수 입력 사항입니다." }]}>
 					<Input className="upload-seller" placeholder="판매자명을 입력해주세요" size="large" />
 				</Form.Item>
+
+				<Form.Item label={<span className="upload-price">판매가</span>} name="price" rules={[{ required: true, message: "판매가는 필수 입력 사항입니다." }]}  initialValue={0}>
+					<InputNumber className="upload-price" size="large" min={0} />
+				</Form.Item>
+				<Divider></Divider>
 				<Form.Item label={<span className="upload-label">상품설명</span>} name="description" rules={[{ required: true, message: "상품설명은 필수 입력 사항입니다." }]}>
 					<TextArea size="large" id="product-description" showCount maxLength={300} placeholder="상품설명을 작성해주세요"></TextArea>
 				</Form.Item>
